@@ -1,9 +1,6 @@
 .main-container{
-	width: 70%;
-	margin-left: 15%;
-	margin-top: 50px;
-	margin-bottom: 80px;
-	margin-right: 15%;
+	width: 780px;
+	margin: 50px auto;
 }
 .table{
 	width: 800px;

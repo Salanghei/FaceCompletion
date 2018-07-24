@@ -1,6 +1,7 @@
 package cn.edu.hit.ir.service;
 
 import cn.edu.hit.ir.entity.AlarmInfo;
+import cn.edu.hit.ir.entity.WantedOrder;
 
 import java.util.List;
 
@@ -19,4 +20,5 @@ public interface IAlarmInfoService {
 
     List<AlarmInfo> selectByUserId(int userId);
 
+    List<AlarmInfo> selectAll();
 }

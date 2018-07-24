@@ -9,6 +9,12 @@
 	<link rel="stylesheet" href="assets/libs/layui/css/layui.css" />
 	<link rel="stylesheet" href="assets/css/comment.css" />
 
+	<style>
+		a.info-a:hover, a.info-a:active, a.info-a:link, a.info-a:visited{
+			text-decoration: none;
+		}
+	</style>
+
 </head>
 
 <body class="layui-layout-body">
@@ -41,15 +47,15 @@
 					<a href="javascript:;">
 						<img id="userHead" src="assets/images/head.jpg" class="layui-nav-img"><span id="userNickName"></span>
 					</a>
-					<dl class="layui-nav-child">
+					<dl class="layui-nav-child" style="left: -30px;">
 						<dd>
-							<a href="javascript:myInfo();"><i class="layui-icon">&#xe612;</i>&emsp;个人信息</a>
+							<a href="javascript:myInfo();" class="info-a"><i class="layui-icon">&#xe612;</i>&emsp;个人信息</a>
 						</dd>
 						<dd>
-							<a href="javascript:updatePsw();"><i class="layui-icon">&#xe631;</i>&emsp;修改密码</a>
+							<a href="javascript:updatePsw();" class="info-a"><i class="layui-icon">&#xe631;</i>&emsp;修改密码</a>
 						</dd>
 						<dd>
-							<a href="javascript:loginOut();"><i class="layui-icon">&#xe66d;</i>&emsp;退出登录</a>
+							<a href="javascript:loginOut();" class="info-a"><i class="layui-icon">&#xe66d;</i>&emsp;退出登录</a>
 						</dd>
 					</dl>
 				</li>

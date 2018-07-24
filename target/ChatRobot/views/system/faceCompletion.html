@@ -37,7 +37,7 @@
 <!--</nav>-->
 
 <div class="main-container">
-    <form method="POST" action="uploadFile" enctype="multipart/form-data">
+    <form id="msgForm" enctype="multipart/form-data">
         <div class="form-group" >
             <input type="file" id="imgUpload" name="file" class="input-img">
         </div>
@@ -46,13 +46,13 @@
                 <!-- 显示要上传的图片 -->
                 <img src="" class="img" id="imgtoUpload"/>
             </div>
-            <div class="get-img">
+            <div class="get-img" id="getImg">
                 <!-- 显示处理后的图片 -->
-                <img src="" class="img" id="imgtoGet"/>
+                <!--<img src="" class="img" id="imgtoGet"/>-->
             </div>
         </div>
         <div class="btn-box">
-            <button type="submit" value="Upload">Submit</button>
+            <button type="button" class="btn btn-info" id="btnSubmit">Submit</button>
         </div>
     </form>
 </div>
@@ -74,17 +74,42 @@
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="js/ie10-viewport-bug-workaround.js"></script>
 <script>
-    $("#imgUpload").change(function(e) {  
-        for (var i = 0; i < e.target.files.length; i++) {  
-            var file = e.target.files.item(i);            
-            var freader = new FileReader();  
-            freader.readAsDataURL(file);  
-            freader.onload = function(e) {  
-              var src = e.target.result;  
-              $("#imgtoUpload").attr("src",src);  
-            }  
-        }  
-    });  
+    $(document).ready(function() {
+        $("#imgUpload").change(function (e) {
+            for (var i = 0; i < e.target.files.length; i++) {
+                var file = e.target.files.item(i);
+                var freader = new FileReader();
+                freader.readAsDataURL(file);
+                freader.onload = function (e) {
+                    var src = e.target.result;
+                    $("#imgtoUpload").attr("src", src);
+                }
+            }
+        });
+
+        $("#btnSubmit").click(function() {
+            var formData = new FormData();
+            formData.append("file",$("#imgUpload")[0].files[0]);
+            $.ajax({
+                url: 'http://localhost:8080/ChatRobotPlatform/image/faceCompletion',
+                type: 'POST',
+                dataType: 'json',
+                data: formData,
+                // 告诉jQuery不要去处理发送的数据
+                processData : false,
+                // 告诉jQuery不要去设置Content-Type请求头
+                contentType : false,
+                beforeSend: function(){
+                    console.log("正在进行，请稍候");
+                },
+                complete: function(responseStr) {
+                    console.log(responseStr);
+                    var html = "<img src=\"http://localhost:8080/ChatRobotPlatform/image/downloadFile?img_name=faceCompletion.jpg\" class=\"img\" id=\"imgtoGet\"/>";
+                    $("#getImg").html(html);
+                },
+            })
+        })
+    })
 </script>
 </body>
 </html>

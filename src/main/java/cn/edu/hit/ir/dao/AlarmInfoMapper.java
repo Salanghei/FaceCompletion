@@ -18,4 +18,6 @@ public interface AlarmInfoMapper {
     int updateByPrimaryKey(AlarmInfo record);
 
     List<AlarmInfo> selectByUserId(int userId);
+
+    List<AlarmInfo> selectAll();
 }

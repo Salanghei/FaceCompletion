@@ -1,9 +1,6 @@
 .main-container{
-	width: 70%;
-	margin-left: 15%;
-	margin-top: 50px;
-	margin-bottom: 80px;
-	margin-right: 15%;
+	width: 980px;
+	margin: 20px auto;
 }
 .get-message{
 	width: 800px;
@@ -35,4 +32,7 @@
 }
 .overfloat-ban{
 	overflow: hidden;
+}
+.override{
+	height: 200px;
 }

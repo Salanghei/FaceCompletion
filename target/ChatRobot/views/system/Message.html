@@ -16,81 +16,49 @@
 
     <!-- Additional Style -->
 
-    <link rel="icon" href="img/favicon.png" %}">
+    <link rel="icon" href="img/favicon.png">
     <title>通缉令</title>
 </head>
 <body>
 
 <!-- Navigation Bar -->
 <!--<nav class="navbar navbar-expand-md navbar-dark" style="background-color: black" id="navbar">-->
-    <!--<a class="navbar-brand" href="{% url 'index' %}">Face Completion</a>-->
-    <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04"-->
-            <!--aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">-->
-        <!--<span class="navbar-toggler-icon"></span>-->
-    <!--</button>-->
+<!--<a class="navbar-brand" href="{% url 'index' %}">Face Completion</a>-->
+<!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04"-->
+<!--aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--<span class="navbar-toggler-icon"></span>-->
+<!--</button>-->
 
-    <!--<div class="collapse navbar-collapse" id="navbarsExample04">-->
-        <!--<ul class="navbar-nav mr-auto">-->
-            <!--&lt;!&ndash; For Right Alignment &ndash;&gt;-->
-        <!--</ul>-->
-    <!--</div>-->
+<!--<div class="collapse navbar-collapse" id="navbarsExample04">-->
+<!--<ul class="navbar-nav mr-auto">-->
+<!--&lt;!&ndash; For Right Alignment &ndash;&gt;-->
+<!--</ul>-->
+<!--</div>-->
 <!--</nav>-->
 
-<div class="main-container">
+<div class="main-container" id="wantedOrderInfo">
 
-            <div class="panel get-message">
-                <div class="panel-body overfloat-ban">
+    <!--<div class="panel get-message">-->
+        <!--<div class="panel-body overfloat-ban">-->
 
-                    <a href="#!system/messageDetails"><img src="img/test.jpg" class="get-img" id="imgtoGet"/></a>
-                    <div class="img-message">
-                        <p><strong>姓名：</strong>王某某</p>
-                        <p><strong>罪情描述：</strong>山西省忻州市公安机关在侦办一起职务侵占案过程中发现，王某某利用职务之便，通过采取私刻印章冒领现金支票、无往来缴款凭证凭空记现金账等手段，非法占有1054余万元资金后逃匿。</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel get-message">
-                <div class="panel-body overfloat-ban">
-
-                    <a href="#!system/messageDetails"><img src="img/test.jpg" class="get-img" id="imgtoGet"/></a>
-                    <div class="img-message">
-                        <p><strong>姓名：</strong>张XX</p>
-                        <p><strong>罪情描述：</strong>2009年8月2日，湖南省xx市xx县星城镇发生一起故意杀人案件，致6人死亡、2人受伤。经工作发现，张xx有重大作案嫌疑，现该人在逃。</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel get-message">
-                <div class="panel-body overfloat-ban">
-                
-                    <a href="#!system/messageDetails"><img src="img/test.jpg" class="get-img" id="imgtoGet"/></a>
-                    <div class="img-message">
-                        <p><strong>姓名：</strong>李XX</p>
-                        <p><strong>罪情描述：</strong>xx省公安机关正在办理一起合同诈骗案。犯罪嫌疑人李xx等以帮助高考低分学生联系入学为名，骗取办事费共计3700余万元，受害人达600余人。该案涉及面广，影响恶劣。</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel get-message">
-                <div class="panel-body overfloat-ban">
-
-                    <a href="#!system/messageDetails"><img src="img/test.jpg" class="get-img" id="imgtoGet"/></a>
-                    <div class="img-message">
-                        <p><strong>姓名：</strong>杨XX</p>
-                        <p><strong>罪情描述：</strong>2006年，广东省xx市公安局经侦支队破获一起特大伪造货币案，缴获印刷设备一批、假人民币胶片一套及大量假人民币。经查，杨xx系该窝点老板，现该人在逃。</p>
-                    </div>
-                </div>
-            </div>
+            <!--<a href="#!system/messageDetails"><img src="img/test.jpg" class="get-img"/></a>-->
+            <!--<div class="img-message">-->
+                <!--<p><strong>姓名：</strong>王某某</p>-->
+                <!--<p><strong>罪情描述：</strong>山西省忻州市公安机关在侦办一起职务侵占案过程中发现，王某某利用职务之便，通过采取私刻印章冒领现金支票、无往来缴款凭证凭空记现金账等手段，非法占有1054余万元资金后逃匿。</p>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
 
 </div>
+<!--<img alt="image" src="http://localhost:8080/ChatRobotPlatform/image/downloadFile?img_name=aaaaaa.jpg" />-->
 
 
 <!-- Footer -->
 <!--<footer class="footer text-muted" style="position: absolute;bottom: 0;">-->
-    <!--<div class="container">-->
-        <!--<p class="float-right">Constructed in <a href="http://getbootstrap.com/">Bootstrap</a></p>-->
-        <!--<p>© 2018 Company, Inc.</p>-->
-    <!--</div>-->
+<!--<div class="container">-->
+<!--<p class="float-right">Constructed in <a href="http://getbootstrap.com/">Bootstrap</a></p>-->
+<!--<p>© 2018 Company, Inc.</p>-->
+<!--</div>-->
 <!--</footer>-->
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -101,17 +69,32 @@
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="js/ie10-viewport-bug-workaround.js"></script>
 <script>
-    $("#imgUpload").change(function(e) {  
-        for (var i = 0; i < e.target.files.length; i++) {  
-            var file = e.target.files.item(i);            
-            var freader = new FileReader();  
-            freader.readAsDataURL(file);  
-            freader.onload = function(e) {  
-              var src = e.target.result;  
-              $("#imgtoUpload").attr("src",src);  
-            }  
-        }  
-    });  
+    $(document).ready(function(){
+        $.ajax({
+            url: 'http://localhost:8080/ChatRobotPlatform/wanted/getAllWantedOrder',
+            type: 'GET',
+            dataType: 'json',
+            async: false,
+            complete: function(data) {
+                //alert('数据获取成功！');
+                var result = JSON.parse(data.responseText);
+                var html = "";
+                for(var i = 0; i < result.length; i++) {
+                    html += "<div class=\"panel get-message\"><div class=\"panel-body overfloat-ban\">";
+                    html += "<a href=\"#!system/messageDetails.html?" + result[i].id + "\"><img src=\"http://localhost:8080/ChatRobotPlatform/image/downloadFile?img_name=" + result[i].imgName + ".jpg\" class=\"get-img\" /></a>";
+                    html += "<div class=\"img-message\"><p><strong>姓名：</strong>" + result[i].imgName + "</p>";
+                    html += "<p><strong>罪情描述：</strong>" + result[i].detail + "</p></div></div></div>";
+                }
+                $("#wantedOrderInfo").append(html);
+                // for(var i = 0; i < result.length;  i++){
+                //     $("#wantedOrderInfo").on("onload");
+                // }
+            },
+            error: function(){
+                alert('数据获取错误！');
+            },
+        });
+    })
 </script>
 </body>
 </html>

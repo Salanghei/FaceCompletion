@@ -38,7 +38,7 @@
 
 <div class="main-container">
     <div class="img-deal">
-        <form class="img-select" method="POST" action="uploadFile" enctype="multipart/form-data">
+        <form class="img-select" enctype="multipart/form-data" id="msgForm">
             <div class="form-group">
                 <input type="file"  name="file" id="imgUpload" class="input-img">
             </div>
@@ -47,41 +47,42 @@
                 <img src="" class="img" id="imgtoUpload"/>
             </div>
             <div class="btn-box">
-                <button type="submit" value="Upload">Submit</button>
+                <button type="button" class="btn btn-info" value="Upload" id="btnSubmit">Submit</button>
             </div>
         </form>
-        <div class="result">
-            <div class="panel get-message">
-                <div class="panel-body overfloat-ban">
-                <!-- 显示处理后的图片 -->
-                <img src="img/test.jpg" class="get-img"/>
-                    <div class="img-message">
-                        <p><strong>姓名：</strong>张XX</p>
-                        <p><strong>性别：</strong>男</p>
-                        <p><strong>出生日期：</strong>1980-3-14</p>
-                        <p><strong>户籍地址：</strong>xx省xxx市</p>
-                        <p><strong>身份证号：</strong>122022XXXXXXXX4567</p>
-                        <p><strong>前科记录：</strong>2009年8月2日，湖南省xx市xx县星城镇发生一起故意杀人案件，致6人死亡、2人受伤。经工作发现，张xx有重大作案嫌疑，现该人在逃。</p>
-                        <p><strong>置信度：</strong>80%</p>
-                    </div>
-                </div>
-            </div>
+        <div class="result" id="result">
+            <!--<div class="panel get-message">-->
+                <!--<div class="panel-body overfloat-ban">-->
+                <!--&lt;!&ndash; 显示处理后的图片 &ndash;&gt;-->
+                <!--<img src="img/test.jpg" class="get-img"/>-->
+                    <!--<div class="img-message">-->
+                        <!--<p><strong>姓名：</strong>张XX</p>-->
+                        <!--<p><strong>性别：</strong>男</p>-->
+                        <!--<p><strong>出生日期：</strong>1980-3-14</p>-->
+                        <!--<p><strong>户籍地址：</strong>xx省xxx市</p>-->
+                        <!--<p><strong>身份证号：</strong>122022XXXXXXXX4567</p>-->
+                        <!--<p><strong>前科记录：</strong>2009年8月2日，湖南省xx市xx县星城镇发生一起故意杀人案件，致6人死亡、2人受伤。经工作发现，张xx有重大作案嫌疑，现该人在逃。</p>-->
+                        <!--<p><strong>置信度：</strong>80%</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
 
-            <div class="panel get-message">
-                <div class="panel-body overfloat-ban">
-                <!-- 显示处理后的图片 -->
-                <img src="img/test.jpg" class="get-img"/>
-                    <div class="img-message">
-                        <p><strong>姓名：</strong>李XX</p>
-                        <p><strong>性别：</strong>男</p>
-                        <p><strong>出生日期：</strong>1982-4-14</p>
-                        <p><strong>户籍地址：</strong>xx省xxx市</p>
-                        <p><strong>身份证号：</strong>122022XXXXXXXX4567</p>
-                        <p><strong>前科记录：</strong>xx省公安机关正在办理一起合同诈骗案。犯罪嫌疑人李xx等以帮助高考低分学生联系入学为名，骗取办事费共计3700余万元，受害人达600余人。该案涉及面广，影响恶劣。</p>
-                        <p><strong>置信度：</strong>80%</p>
-                    </div>
-                </div>
-            </div>
+            <!--<div class="panel get-message">-->
+                <!--<div class="panel-body overfloat-ban">-->
+                    <!--&lt;!&ndash; 显示处理后的图片 &ndash;&gt;-->
+                    <!--<img src="img/test.jpg" class="get-img"/>-->
+                    <!--<div class="img-message">-->
+                        <!--<p><strong>姓名：</strong>李XX</p>-->
+                        <!--<p><strong>性别：</strong>男</p>-->
+                        <!--<p><strong>出生日期：</strong>1982-4-14</p>-->
+                        <!--<p><strong>户籍地址：</strong>xx省xxx市</p>-->
+                        <!--<p><strong>身份证号：</strong>122022XXXXXXXX4567</p>-->
+                        <!--<p><strong>前科记录：</strong>xx省公安机关正在办理一起合同诈骗案。犯罪嫌疑人李xx等以帮助高考低分学生联系入学为名，骗取办事费共计3700余万元，受害人达600余人。该案涉及面广，影响恶劣。</p>-->
+                        <!--<p><strong>置信度：</strong>80%</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
         </div>
     </div>
 </div>
@@ -103,17 +104,65 @@
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="js/ie10-viewport-bug-workaround.js"></script>
 <script>
-    $("#imgUpload").change(function(e) {  
-        for (var i = 0; i < e.target.files.length; i++) {  
-            var file = e.target.files.item(i);            
-            var freader = new FileReader();  
-            freader.readAsDataURL(file);  
-            freader.onload = function(e) {  
-              var src = e.target.result;  
-              $("#imgtoUpload").attr("src",src);  
-            }  
-        }  
-    });  
+    $(document).ready(function() {
+        $("#imgUpload").change(function (e) {
+            for (var i = 0; i < e.target.files.length; i++) {
+                var file = e.target.files.item(i);
+                var freader = new FileReader();
+                freader.readAsDataURL(file);
+                freader.onload = function (e) {
+                    var src = e.target.result;
+                    $("#imgtoUpload").attr("src", src);
+                }
+            }
+        });
+
+        $("#btnSubmit").click(function() {
+            var formData = new FormData();
+            formData.append("file",$("#imgUpload")[0].files[0]);
+            $.ajax({
+                url: 'http://localhost:8080/ChatRobotPlatform/image/faceCompare',
+                type: 'POST',
+                dataType: 'json',
+                data: formData,
+                // 告诉jQuery不要去处理发送的数据
+                processData : false,
+                // 告诉jQuery不要去设置Content-Type请求头
+                contentType : false,
+                beforeSend: function(){
+                    console.log("正在进行，请稍候");
+                },
+                complete: function(data) {
+                    console.log(data);
+                    var result1 = JSON.parse(data.responseText);
+                    var json = {};
+                    json["id"] = result1.id;
+                    $.ajax({
+                        url: 'http://localhost:8080/ChatRobotPlatform/wanted/getWantedOrderById',
+                        type: 'GET',
+                        dataType: 'json',
+                        async: false,
+                        data: json,
+                        complete: function(data) {
+                            //alert(data.responseText);
+                            var result2 = JSON.parse(data.responseText);
+                            var html = "";
+                            html += "<div class=\"panel get-message\"><div class=\"panel-body overfloat-ban\">";
+                            html += "<img src=\"http://localhost:8080/ChatRobotPlatform/image/downloadFile?img_name=" + result2.imgName + ".jpg\" class=\"get-img\"/>";
+                            html += "<div class=\"img-message\"><p><strong>姓名：</strong>" + result2.imgName + "</p>";
+                            html += "<p><strong>基本信息：</strong>" + result2.info + "</p>";
+                            html += "<p><strong>前科记录：</strong>" + result2.detail + "</p>";
+                            html += "<p><strong>置信度：</strong>" + result1.conf + "</p>";
+                            $("#result").html(html);
+                        },
+                        error: function(){
+                            alert('数据获取错误！');
+                        },
+                    });
+                },
+            })
+        })
+    })
 </script>
 </body>
 </html>

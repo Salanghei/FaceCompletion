@@ -149,17 +149,17 @@ public class UserController {
         response.getWriter().write(gson.toJson(baseResponse));
     }
 
-//    /**
-//     * 菜单
-//     */
-//    @RequestMapping(value="/menu",method= RequestMethod.POST)
-//    public void menu(HttpServletRequest request, HttpServletResponse response)throws IOException{
-//        request.setCharacterEncoding("UTF-8");
-//        response.setCharacterEncoding("UTF-8");
-//        System.out.println("菜单加载成功");
-//        ObjectMapper mapper = new ObjectMapper();
-//        response.getWriter().write(mapper.writeValueAsString(menuService.selectAll()));
-//        response.getWriter().close();
-//    }
+    /**
+     * 菜单
+     */
+    @RequestMapping(value="/menu",method= RequestMethod.POST)
+    public void menu(HttpServletRequest request, HttpServletResponse response)throws IOException{
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        System.out.println("菜单加载成功");
+        ObjectMapper mapper = new ObjectMapper();
+        response.getWriter().write(mapper.writeValueAsString(menuService.selectAll()));
+        response.getWriter().close();
+    }
 
 }

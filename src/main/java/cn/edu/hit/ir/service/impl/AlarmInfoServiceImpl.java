@@ -48,4 +48,9 @@ public class AlarmInfoServiceImpl implements IAlarmInfoService {
     public List<AlarmInfo> selectByUserId(int userId) {
         return alarmInfoMapper.selectByUserId(userId);
     }
+
+    @Override
+    public List<AlarmInfo> selectAll() {
+        return alarmInfoMapper.selectAll();
+    }
 }

@@ -7,6 +7,7 @@ import cn.edu.hit.ir.service.IAlarmInfoService;
 import com.google.gson.Gson;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -53,8 +54,9 @@ public class AlarmController {
         response.getWriter().write(gson.toJson(baseResponse));
     }
 
-    @RequestMapping(value="/getPoliceInfo")
+    @RequestMapping(value="/getPoliceInfo", method = RequestMethod.GET)
     public void getPoliceInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("调用getPoliceInfo函数");
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
 
@@ -63,5 +65,18 @@ public class AlarmController {
         List<AlarmInfo> alarmInfo = alarmInfoService.selectByUserId(user_id);
 
         response.getWriter().write(gson.toJson(alarmInfo));
+    }
+
+    @RequestMapping(value = "getAllAlarmInfo")
+    public void getAllAlarmInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("调用getAllWantedOrder函数");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
+        List<AlarmInfo> alarmInfoList = alarmInfoService.selectAll();
+        //List<AlarmInfo> alarmInfoList = alarmInfoService.selectByUserId(2);
+
+        response.getWriter().write(gson.toJson(alarmInfoList));
+
     }
 }

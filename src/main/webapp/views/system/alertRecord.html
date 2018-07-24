@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
@@ -21,90 +21,42 @@
     <!-- Additional Style -->
 
     <link rel="icon" href="img/favicon.png" %}">
-    <title>通缉令详情</title>
+    <title>报警记录</title>
 </head>
 <body>
 
 <!-- Navigation Bar -->
 <!--<nav class="navbar navbar-expand-md navbar-dark" style="background-color: black" id="navbar">-->
-    <!--<a class="navbar-brand" href="{% url 'index' %}">Face Completion</a>-->
-    <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04"-->
-            <!--aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">-->
-        <!--<span class="navbar-toggler-icon"></span>-->
-    <!--</button>-->
+<!--<a class="navbar-brand" href="{% url 'index' %}">Face Completion</a>-->
+<!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04"-->
+<!--aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--<span class="navbar-toggler-icon"></span>-->
+<!--</button>-->
 
-    <!--<div class="collapse navbar-collapse" id="navbarsExample04">-->
-        <!--<ul class="navbar-nav mr-auto">-->
-            <!--&lt;!&ndash; For Right Alignment &ndash;&gt;-->
-        <!--</ul>-->
-    <!--</div>-->
+<!--<div class="collapse navbar-collapse" id="navbarsExample04">-->
+<!--<ul class="navbar-nav mr-auto">-->
+<!--&lt;!&ndash; For Right Alignment &ndash;&gt;-->
+<!--</ul>-->
+<!--</div>-->
 <!--</nav>-->
 
 <div class="main-container">
     <table class="table table-condensed">
         <thead>
-            <tr>
-                <th>内容</th>
-                <th>位置</th>
-                <th>报警人</th>
-                <th>日期</th>
-            </tr>
+        <tr>
+            <th>内容</th>
+            <th>位置</th>
+            <th>报警人</th>
+            <!--<th>日期</th>-->
+        </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td><a href="#!system/recordDetails" class="alert-record">发现可疑人员</a></td>
-                <td>xx省xxx市xx区xxx街92号</td>
-                <td>匿名</td>
-                <td>2018-3-14</td>
-            </tr>
-            <tr>
-                <td><a href="#!system/recordDetails" class="alert-record">发现可疑人员</a></td>
-                <td>哈尔滨市南岗区西大直街92号</td>
-                <td>匿名</td>
-                <td>2018-3-4</td>
-            </tr>
-            <tr>
-                <td><a href="#!system/recordDetails" class="alert-record">发现可疑人员</a></td>
-                <td>哈尔滨市南岗区西大直街92号</td>
-                <td>匿名</td>
-                <td>2018-3-4</td>
-            </tr>
-            <tr>
-                <td><a href="#!system/recordDetails" class="alert-record">发现可疑人员</a></td>
-                <td>哈尔滨市南岗区西大直街92号</td>
-                <td>匿名</td>
-                <td>2018-3-4</td>
-            </tr>
-            <tr>
-                <td><a href="#!system/recordDetails" class="alert-record">发现可疑人员</a></td>
-                <td>哈尔滨市南岗区西大直街92号</td>
-                <td>匿名</td>
-                <td>2018-3-4</td>
-            </tr>
-            <tr>
-                <td><a href="#!system/recordDetails" class="alert-record">发现可疑人员</a></td>
-                <td>哈尔滨市南岗区西大直街92号</td>
-                <td>匿名</td>
-                <td>2018-3-4</td>
-            </tr>
-            <tr>
-                <td><a href="#!system/recordDetails" class="alert-record">发现可疑人员</a></td>
-                <td>哈尔滨市南岗区西大直街92号</td>
-                <td>匿名</td>
-                <td>2018-3-4</td>
-            </tr>
-            <tr>
-                <td><a href="#!system/recordDetails" class="alert-record">发现可疑人员</a></td>
-                <td>哈尔滨市南岗区西大直街92号</td>
-                <td>匿名</td>
-                <td>2018-3-4</td>
-            </tr>
-            <tr>
-                <td><a href="#!system/recordDetails" class="alert-record">发现可疑人员</a></td>
-                <td>哈尔滨市南岗区西大直街92号</td>
-                <td>匿名</td>
-                <td>2018-3-4</td>
-            </tr>
+        <tbody id="alarmInfo">
+        <tr>
+            <td><a href="#!system/recordDetails" class="alert-record">发现可疑人员</a></td>
+            <td>xx省xxx市xx区xxx街92号</td>
+            <td>匿名</td>
+            <!--<td>2018-3-14</td>-->
+        </tr>
         </tbody>
     </table>
 </div>
@@ -112,10 +64,10 @@
 
 <!-- Footer -->
 <!--<footer class="footer text-muted">-->
-    <!--<div class="container">-->
-        <!--<p class="float-right">Constructed in <a href="http://getbootstrap.com/">Bootstrap</a></p>-->
-        <!--<p>© 2018 Company, Inc.</p>-->
-    <!--</div>-->
+<!--<div class="container">-->
+<!--<p class="float-right">Constructed in <a href="http://getbootstrap.com/">Bootstrap</a></p>-->
+<!--<p>© 2018 Company, Inc.</p>-->
+<!--</div>-->
 <!--</footer>-->
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -126,17 +78,29 @@
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="js/ie10-viewport-bug-workaround.js"></script>
 <script>
-    $("#imgUpload").change(function(e) {  
-        for (var i = 0; i < e.target.files.length; i++) {  
-            var file = e.target.files.item(i);            
-            var freader = new FileReader();  
-            freader.readAsDataURL(file);  
-            freader.onload = function(e) {  
-              var src = e.target.result;  
-              $("#imgtoUpload").attr("src",src);  
-            }  
-        }  
-    });  
+    $(document).ready(function(){
+        $.ajax({
+            url: 'http://localhost:8080/ChatRobotPlatform/alarm/getAllAlarmInfo',
+            type: 'GET',
+            dataType: 'json',
+            async: false,
+            complete: function(data) {
+                //alert(data.responseText);
+                var result = JSON.parse(data.responseText);
+                var html = "";
+                for(var i = 0; i < result.length; i++) {
+                    html += "<tr><td><a href=\"#!system/recordDetails.html?" + result[i].userId + "\" class=\"alert-record\">" + result[i].content + "</a></td>";
+                    html += "<td>经度:" + result[i].longitude + "  纬度:" + result[i].latitude + "</td>";
+                    html += "<td>" + result[i].userId + "</td></tr>";
+                }
+                $("#alarmInfo").append(html);
+            },
+            error: function(){
+                alert('数据获取错误！');
+            },
+        });
+    })
+
 </script>
 </body>
 </html>

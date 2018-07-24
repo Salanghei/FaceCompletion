@@ -19,7 +19,7 @@
                 driverClass="com.mysql.jdbc.Driver"
                 connectionURL="jdbc:mysql://127.0.0.1:3306/infosafe"
                 userId="root"
-                password="12345678">
+                password="yang12345">
         </jdbcConnection>
         <!--生成POJO类-->
         <javaModelGenerator targetPackage="cn.edu.hit.ir.entity" targetProject="src/main/java">

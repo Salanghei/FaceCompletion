@@ -23,49 +23,49 @@
 
 <!-- Navigation Bar -->
 <!--<nav class="navbar navbar-expand-md navbar-dark" style="background-color: black" id="navbar">-->
-    <!--<a class="navbar-brand" href="{% url 'index' %}">Face Completion</a>-->
-    <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04"-->
-            <!--aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">-->
-        <!--<span class="navbar-toggler-icon"></span>-->
-    <!--</button>-->
+<!--<a class="navbar-brand" href="{% url 'index' %}">Face Completion</a>-->
+<!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04"-->
+<!--aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--<span class="navbar-toggler-icon"></span>-->
+<!--</button>-->
 
-    <!--<div class="collapse navbar-collapse" id="navbarsExample04">-->
-        <!--<ul class="navbar-nav mr-auto">-->
-            <!--&lt;!&ndash; For Right Alignment &ndash;&gt;-->
-        <!--</ul>-->
-    <!--</div>-->
+<!--<div class="collapse navbar-collapse" id="navbarsExample04">-->
+<!--<ul class="navbar-nav mr-auto">-->
+<!--&lt;!&ndash; For Right Alignment &ndash;&gt;-->
+<!--</ul>-->
+<!--</div>-->
 <!--</nav>-->
 
 <div class="main-container">
 
-            <div class="panel get-message">
-                <div class="panel-body overfloat-ban">
-                
-                    <img src="img/test.jpg" class="get-img" id="imgtoGet"/>
-                    <div class="img-message">
-                        <p><strong>姓名：</strong>王某某</p>
-                        <p><strong>性别：</strong>男</p>
-                        <p><strong>出生日期：</strong>1976-9-24</p>
-                        <p><strong>户籍地址：</strong>山西省xx县xx镇</p>
-                        <p><strong>身份证号：</strong>142233197609xxxxxx</p>
-                        <p><strong>罪情描述：</strong>山西省忻州市公安机关在侦办一起职务侵占案过程中发现，王某某利用职务之便，通过采取私刻印章冒领现金支票、无往来缴款凭证凭空记现金账等手段，非法占有1054余万元资金后逃匿。社会各界和广大人民群众积极提供有关线索，发现有关情况，请及时拨打110报警电话或0350——7306288。对发现线索的举报人、缉捕有功的单位或个人，公安机关将给予奖励人民币10万元。</p>
-                        <p><strong>通缉日期：</strong>2011-2-12</p>
-                        <p><strong>通缉编号：</strong>公缉[20xx]x号</p>
-                    </div>
-                </div>
-            </div>
+    <div class="panel get-message">
+        <div class="panel-body overfloat-ban" id="infoBox">
 
-           
+            <img src="img/test.jpg" class="get-img" id="imgtoGet"/>
+            <div class="img-message">
+                <p><strong>姓名：</strong>王某某</p>
+                <p><strong>性别：</strong>男</p>
+                <p><strong>出生日期：</strong>1976-9-24</p>
+                <p><strong>户籍地址：</strong>山西省xx县xx镇</p>
+                <p><strong>身份证号：</strong>142233197609xxxxxx</p>
+                <p><strong>罪情描述：</strong>山西省忻州市公安机关在侦办一起职务侵占案过程中发现，王某某利用职务之便，通过采取私刻印章冒领现金支票、无往来缴款凭证凭空记现金账等手段，非法占有1054余万元资金后逃匿。社会各界和广大人民群众积极提供有关线索，发现有关情况，请及时拨打110报警电话或0350——7306288。对发现线索的举报人、缉捕有功的单位或个人，公安机关将给予奖励人民币10万元。</p>
+                <p><strong>通缉日期：</strong>2011-2-12</p>
+                <p><strong>通缉编号：</strong>公缉[20xx]x号</p>
+            </div>
+        </div>
+    </div>
+
+
 
 </div>
 
 
 <!-- Footer -->
 <!--<footer class="footer text-muted">-->
-    <!--<div class="container">-->
-        <!--<p class="float-right">Constructed in <a href="http://getbootstrap.com/">Bootstrap</a></p>-->
-        <!--<p>© 2018 Company, Inc.</p>-->
-    <!--</div>-->
+<!--<div class="container">-->
+<!--<p class="float-right">Constructed in <a href="http://getbootstrap.com/">Bootstrap</a></p>-->
+<!--<p>© 2018 Company, Inc.</p>-->
+<!--</div>-->
 <!--</footer>-->
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -76,17 +76,33 @@
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="js/ie10-viewport-bug-workaround.js"></script>
 <script>
-    $("#imgUpload").change(function(e) {  
-        for (var i = 0; i < e.target.files.length; i++) {  
-            var file = e.target.files.item(i);            
-            var freader = new FileReader();  
-            freader.readAsDataURL(file);  
-            freader.onload = function(e) {  
-              var src = e.target.result;  
-              $("#imgtoUpload").attr("src",src);  
-            }  
-        }  
-    });  
+    $(document).ready(function(){
+        var test = window.location.href.split("?")[1];
+        var json = {};
+        json["id"] = test;
+        $.ajax({
+            url: 'http://localhost:8080/ChatRobotPlatform/wanted/getWantedOrderById',
+            type: 'GET',
+            dataType: 'json',
+            async: false,
+            data: json,
+            complete: function(data) {
+                //alert(data.responseText);
+                var result = JSON.parse(data.responseText);
+                var html = "";
+                html += "<img src=\"http://localhost:8080/ChatRobotPlatform/image/downloadFile?img_name=" + result.imgName + ".jpg\" class=\"get-img\" id=\"imgtoGet\"/>";
+                html += "<div class=\"img-message\"><p><strong>姓名：</strong>" + result.imgName + "</p>";
+                html += "<p><strong>基本信息：</strong>" + result.info + "</p>";
+                html += "<p><strong>罪情描述：</strong>" + result.detail + "</p>";
+                html += "<p><strong>通缉日期：</strong>" + result.datetime + "</p>";
+                html += "<p><strong>通缉编号：</strong>" + result.number + "</p>";
+                $("#infoBox").html(html);
+            },
+            error: function(){
+                alert('数据获取错误！');
+            },
+        });
+    })
 </script>
 </body>
 </html>
