@@ -70,7 +70,7 @@ public class UserController {
     /**
      * 登录
      */
-    @RequestMapping(value="/login",method= RequestMethod.POST)
+    @RequestMapping(value="/login")
     public void login(HttpServletRequest request, HttpServletResponse response)throws IOException{
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
@@ -126,7 +126,7 @@ public class UserController {
         response.getWriter().close();
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/register")
     public void register(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");

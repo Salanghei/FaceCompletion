@@ -13,3 +13,12 @@ th,td{
 .alert-record{
 	color: #2a65a5;
 }
+.mes-detail{
+	max-width: 400px;
+}
+.mes-detail a{
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	overflow: hidden;
+}

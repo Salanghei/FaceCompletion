@@ -1,6 +1,7 @@
 package cn.edu.hit.ir.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * alarm_info
@@ -20,6 +21,9 @@ public class AlarmInfo implements Serializable {
     private Float latitude;
 
     private String imgName;
+
+
+    byte[] pics;
 
     private static final long serialVersionUID = 1L;
 
@@ -77,5 +81,13 @@ public class AlarmInfo implements Serializable {
 
     public void setImgName(String imgName) {
         this.imgName = imgName;
+    }
+
+    public byte[] getPics() {
+        return pics;
+    }
+
+    public void setPics(byte[] pics) {
+        this.pics = pics;
     }
 }

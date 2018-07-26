@@ -15,8 +15,9 @@
     <link rel="stylesheet" href="css/recordDetails.css"/>
 
     <!-- Additional Style -->
+    <link rel="stylesheet" href="css/alarm.css"/>
 
-    <link rel="icon" href="img/favicon.png" %}">
+    <link rel="icon" href="img/favicon.png">
     <title>报警记录详情详情</title>
 </head>
 <body>
@@ -36,21 +37,21 @@
     <!--</div>-->
 <!--</nav>-->
 
-<div class="main-container">
+<div class="main-container" id="container">
 
             <div class="panel get-message">
                 <div class="panel-body overfloat-ban">
-                
+
                     <div class="img-message" id="msgBox">
-                        
-                        <p><strong>报警人：</strong>匿名</p>
-                        <p><strong>报警时间：</strong>2018-3-14</p>
-                        <p><strong>地址：</strong>xxx省xxx市xx街92号</p>
-                        <p><strong>描述：</strong>在xxx区发现有一个可疑男子与通缉令上的张xx很像，一直蹲在马路旁边，东张西望不知道在干什么</p>
+
+                        <p><strong>报警人：</strong></p>
+                        <p><strong>报警时间：</strong></p>
+                        <p><strong>地址：</strong></p>
+                        <p><strong>描述：</strong></p>
                     </div>
-                    <div class="img-box">
-                        <img src="img/test.jpg" class="record-img"/>
-                        <img src="img/test.jpg" class="record-img"/>
+                    <div class="img-box" id="imgBox">
+                        <!--<img src="img/test.jpg" class="record-img"/>-->
+                        <!--<img src="img/test.jpg" class="record-img"/>-->
                         <!--<img src="img/test.jpeg" class="record-img"/>-->
                         <!--<img src="img/1.jpg" class="record-img"/>-->
                         <!--<img src="img/test.jpeg" class="record-img"/>-->
@@ -74,36 +75,58 @@
 <!--</footer>-->
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="js/jquery.min.js"></script>
+<script src="assets/libs/jquery/jquery-3.2.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
 <script src="js/holder.min.js"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="js/ie10-viewport-bug-workaround.js"></script>
+<script type="text/javascript" src="http://cdn.goeasy.io/goeasy.js"></script>
 <script>
     $(document).ready(function(){
         var test = window.location.href.split("?")[1];
-        var json = {};
-        json["user_id"] = test;
         $.ajax({
-            url: 'http://localhost:8080/ChatRobotPlatform/alarm/getPoliceInfo',
+            url: 'http://localhost:8080/ChatRobotPlatform/alarm/getPoliceInfo?user_id=' + test,
             type: 'GET',
             dataType: 'json',
-            async: false,
-            data: json,
             complete: function(data) {
                 //alert('数据获取成功！');
                 var result = JSON.parse(data.responseText);
                 var html = "";
-                html += "<p><strong>报警人：</strong>匿名</p>";
-                html += "<p><strong>电话号码：</strong>" + result[0].tel + "</p>";
-                html += "<p><strong>位置：</strong>经度: " + result[0].longitude + "  纬度: " + result[0].latitude + "</p>";
-                html += "<p><strong>描述：</strong>" + result[0].content + "</p>";
+                html += "<p><strong>报警人：</strong>" + result.userId + "</p>";
+                html += "<p><strong>电话号码：</strong>" + result.tel + "</p>";
+                html += "<p><strong>位置：</strong>经度: " + result.longitude + "  纬度: " + result.latitude + "</p>";
+                html += "<p><strong>描述：</strong>" + result.content + "</p>";
                 $("#msgBox").html(html);
+
+                var imgHtml = "";
+                var num = parseInt(result.imgName.split("_")[1]);
+                for(var i = 0; i < num; i++) {
+                    imgHtml += "<img src=\"http://localhost:8080/ChatRobotPlatform/image/downloadFile?img_name=" + (result.imgName.split("_")[0] + i) + ".jpg\" class=\"record-img\"/>";
+                }
+                $("#imgBox").html(imgHtml);
             },
             error: function(){
                 alert('数据获取错误！');
             },
+        });
+
+        var goEasy = new GoEasy({appkey: 'BC-681930150556484b927df348d97cff9e'});
+        goEasy.subscribe({
+            channel: 'alarm',
+            onMessage: function(message){
+                var result = JSON.parse(message.content);
+                //alert(message.content);
+                var html = "<div class=\"alert alert-warning alert-dismissible mes-alert\" role=\"alert\">";
+                html += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\" id=\"closeAlarm\"><span aria-hidden=\"true\">&times;</span></button>";
+                html += "<h3><span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>  Warning! New message!</h3>";
+                html += "<div class=\"alarm-content-box\">";
+                html += "<p class=\"alarm-content\"> " + result.content + "</p>";
+                var href = "#!system/alarmDetails.html?user_id=" + result.user_id + "&content=" + result.content
+                    + "&tel=" + result.tel + "&longitude=" + result.longitude + "&latitude=" + result.latitude + "&img_name=" + result.img_name;
+                html += "<a href=\"" + href + "\" class=\"alarm-click\">点击查看</a></div></div>";
+                $("#container").append(html);
+            }
         });
     })
 </script>

@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="css/addMessage.css"/>
 
     <!-- Additional Style -->
+    <link rel="stylesheet" href="css/alarm.css"/>
 
     <link rel="icon" href="img/favicon.png">
     <title>通缉令发布</title>
@@ -35,7 +36,7 @@
         <!--</ul>-->
     <!--</div>-->
 <!--</nav>-->
-
+<div id="container">
 <form class="main-container" id="msgForm" enctype="multipart/form-data">
     <div class="img-deal">
         <div class="img-select">
@@ -87,6 +88,7 @@
         </div>
     </div>
 </form>
+</div>
 
 
 <!-- Footer -->
@@ -98,14 +100,20 @@
 <!--</footer>-->
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="js/jquery.min.js"></script>
+<script src="assets/libs/jquery/jquery-3.2.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
 <script src="js/holder.min.js"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="js/ie10-viewport-bug-workaround.js"></script>
+<script type="text/javascript" src="http://cdn.goeasy.io/goeasy.js"></script>
 <script>
     $(document).ready(function() {
+        var date = new Date();
+        var time = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
+            + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        $("#adddate").attr("value", time);
+
         $("#imgUpload").change(function(e) {
             for (var i = 0; i < e.target.files.length; i++) {
                 var file = e.target.files.item(i);
@@ -154,7 +162,26 @@
             //刷新当前页面
             window.location.reload();
         })
+
+        var goEasy = new GoEasy({appkey: 'BC-681930150556484b927df348d97cff9e'});
+        goEasy.subscribe({
+            channel: 'alarm',
+            onMessage: function(message){
+                var result = JSON.parse(message.content);
+                //alert(message.content);
+                var html = "<div class=\"alert alert-warning alert-dismissible mes-alert\" role=\"alert\">";
+                html += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\" id=\"closeAlarm\"><span aria-hidden=\"true\">&times;</span></button>";
+                html += "<h3><span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>  Warning! New message!</h3>";
+                html += "<div class=\"alarm-content-box\">";
+                html += "<p class=\"alarm-content\"> " + result.content + "</p>";
+                var href = "#!system/alarmDetails.html?user_id=" + result.user_id + "&content=" + result.content
+                    + "&tel=" + result.tel + "&longitude=" + result.longitude + "&latitude=" + result.latitude + "&img_name=" + result.img_name;
+                html += "<a href=\"" + href + "\" class=\"alarm-click\">点击查看</a></div></div>";
+                $("#container").append(html);
+            }
+        });
     })
+
 </script>
 </body>
 </html>

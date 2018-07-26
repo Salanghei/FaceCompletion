@@ -1,14 +1,23 @@
 package cn.edu.hit.ir.controller;
 
 
+import cn.edu.hit.ir.BaseResponse;
+import cn.edu.hit.ir.Data;
+import cn.edu.hit.ir.entity.AlarmInfo;
+import cn.edu.hit.ir.service.IAlarmInfoService;
 import com.google.gson.Gson;
+import io.goeasy.GoEasy;
+import io.goeasy.publish.GoEasyError;
+import io.goeasy.publish.PublishListener;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +26,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -24,7 +34,10 @@ import java.util.Map;
 public class ImageController {
     private Gson gson = new Gson();
 
-//    private String rootPath = "C:\\Users\\ZhaoYang\\Pictures\\image";
+    @Resource
+    private IAlarmInfoService alarmInfoService;
+
+    //    private String rootPath = "C:\\Users\\ZhaoYang\\Pictures\\image";
     private String rootPath = "F:\\SecurityCompetition\\FaceCompletion\\src\\main\\webapp\\resources\\images";
     @RequestMapping(value = "/uploadFileHandler", method = RequestMethod.POST)
     @ResponseBody
@@ -46,6 +59,89 @@ public class ImageController {
             }
         } else {
             return "You failed to upload " + file.getOriginalFilename() + " because the file was empty.";
+        }
+    }
+
+    //上传多个文件
+    @RequestMapping(value = "/appUploadFileHandler")
+    @ResponseBody
+    public void appUploadFileHandler(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        System.out.println("调用uploadFileHandler函数");
+        //System.out.println(imgName);
+        MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+
+        List<MultipartFile> files = multiRequest.getFiles("file");
+        String content = request.getParameter("content");
+        String tel = request.getParameter("tel");
+        String longitude = request.getParameter("longitude");
+        String latitude = request.getParameter("latitude");
+        System.out.println("longitude"+longitude);
+        System.out.println(""+latitude);
+        Float lon = Float.valueOf(longitude);
+        Float lat = Float.valueOf(latitude);
+        String filename = request.getParameter("filename");
+        System.out.println(filename);
+        int user_id = Integer.parseInt(request.getParameter("user_id") + "");
+        int i = 0;
+        if (files != null && files.size() != 0) {
+            try {
+                for (i = 0;i < files.size(); i++){
+                    File dir = new File(rootPath + File.separator + "tmpFiles" + File.separator + filename+i);
+                    //if (!dir.exists())
+                    //dir.mkdirs();
+                    // 写文件到服务器
+                    File serverFile = new File(dir.getAbsolutePath()+ ".jpg");
+                    files.get(i).transferTo(serverFile);
+                }
+                AlarmInfo info = new AlarmInfo();
+                info.setContent(content);
+                info.setTel(tel);
+                info.setLongitude(lon);
+                info.setLatitude(lat);
+                info.setUserId(user_id);
+                info.setImgName(filename+ "_" + i);
+                alarmInfoService.insert(info);
+                // 文件存放服务端的位置
+                BaseResponse baseResponse = new BaseResponse();
+                baseResponse.setStatus("200");
+                baseResponse.setData(new Data("success",""));
+                response.getWriter().write(gson.toJson(baseResponse));
+                response.getWriter().close();
+
+                Map<String, String> map = new HashMap<>();
+                map.put("content", content);
+                map.put("user_id", String.valueOf(user_id));
+                map.put("tel", tel);
+                map.put("longitude", String.valueOf(longitude));
+                map.put("latitude",String.valueOf(latitude));
+                map.put("img_name", filename+"_" + i);
+
+                //向前端推送消息
+                GoEasy goEasy = new GoEasy("BC-681930150556484b927df348d97cff9e");
+                goEasy.publish("alarm", gson.toJson(map), new PublishListener() {
+                    @Override
+                    public void onFailed(GoEasyError error) {
+                        System.out.println("推送失败 Error code:" + error.getCode() + "; error content:" + error.getContent());
+                    }
+                    @Override
+                    public void onSuccess() {
+                        System.out.println("推送成功");
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                BaseResponse baseResponse = new BaseResponse();
+                baseResponse.setStatus("500");
+                response.getWriter().write(gson.toJson(baseResponse));
+                response.getWriter().close();
+            }
+        } else {
+            BaseResponse baseResponse = new BaseResponse();
+            baseResponse.setStatus("500");
+            response.getWriter().write(gson.toJson(baseResponse));
+            response.getWriter().close();
         }
     }
 

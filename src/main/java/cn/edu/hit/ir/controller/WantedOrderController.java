@@ -1,5 +1,6 @@
 package cn.edu.hit.ir.controller;
 
+import cn.edu.hit.ir.WantedOrderResponse;
 import cn.edu.hit.ir.entity.WantedOrder;
 import cn.edu.hit.ir.service.IWantedOrderService;
 import com.google.gson.Gson;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,6 +28,8 @@ public class WantedOrderController {
     private IWantedOrderService wantedOrderService;
 
     private Gson gson = new Gson();
+
+    private String rootPath = "F:\\SecurityCompetition\\FaceCompletion\\src\\main\\webapp\\resources\\images\\tmpFiles";
 
     @RequestMapping(value = "insertWantedOrder", method = RequestMethod.POST)
     public void insertWantedOrder(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
@@ -79,4 +85,35 @@ public class WantedOrderController {
 
         response.getWriter().write(gson.toJson(wantedOrder));
     }
+
+    @RequestMapping(value = "/appGetAllWantedOrder")
+    public void appGetAllWantedOrder(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("调用getAllWantedOrder函数");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
+        List<WantedOrder> wantedOrderList = wantedOrderService.selectAll();
+        for (int i=0;i<wantedOrderList.size();i++){
+            byte[] result = null;
+            File f = new File(rootPath, wantedOrderList.get(i).getImgName()+".jpg");
+            if (f.exists() && f.isFile()) {
+                FileInputStream inputStream = new FileInputStream(f);
+                int available = inputStream.available();
+                result = new byte[available];
+                inputStream.read(result);
+                wantedOrderList.get(i).setPic(result);
+            } else {
+                System.out.println("获取这个文件出错！没有这个文件！");
+                throw new FileNotFoundException();
+            }
+
+        }
+
+        WantedOrderResponse wantedOrderResponse = new WantedOrderResponse();
+        wantedOrderResponse.setData(wantedOrderList);
+        wantedOrderResponse.setStatus("200");
+        response.getWriter().write(gson.toJson(wantedOrderResponse));
+
+    }
+
 }

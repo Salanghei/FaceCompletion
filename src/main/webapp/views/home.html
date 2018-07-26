@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/messageDetails.css"/>
 
     <!-- Additional Style -->
+    <link rel="stylesheet" href="css/alarm.css"/>
     <style>
         #global-alerts {
             display: none;
@@ -95,11 +96,11 @@
             }
         }
     </style>
-    <link rel="icon" href="img/favicon.png" %}">
+    <link rel="icon" href="img/favicon.png">
     <title>首页</title>
 </head>
 <body>
-    <main role="main">
+    <main role="main" id="container">
 
         <div id="myCarousel" class="carousel slide" data-ride="carousel">
             <!-- <ol class="carousel-indicators">
@@ -193,3 +194,29 @@
 
         </div>
     </main>
+
+    <script src="assets/libs/jquery/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="http://cdn.goeasy.io/goeasy.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            var goEasy = new GoEasy({appkey: 'BC-681930150556484b927df348d97cff9e'});
+            goEasy.subscribe({
+                channel: 'alarm',
+                onMessage: function(message){
+                    var result = JSON.parse(message.content);
+                    //alert(message.content);
+                    var html = "<div class=\"alert alert-warning alert-dismissible mes-alert\" role=\"alert\">";
+                    html += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\" id=\"closeAlarm\"><span aria-hidden=\"true\">&times;</span></button>";
+                    html += "<h3><span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>  Warning! New message!</h3>";
+                    html += "<div class=\"alarm-content-box\">";
+                    html += "<p class=\"alarm-content\"> " + result.content + "</p>";
+                    var href = "#!system/alarmDetails.html?user_id=" + result.user_id + "&content=" + result.content
+                        + "&tel=" + result.tel + "&longitude=" + result.longitude + "&latitude=" + result.latitude + "&img_name=" + result.img_name;
+                    html += "<a href=\"" + href + "\" class=\"alarm-click\">点击查看</a></div></div>";
+                    $("#container").append(html);
+                }
+            });
+        })
+    </script>
+</body>

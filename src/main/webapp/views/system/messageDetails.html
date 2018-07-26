@@ -15,8 +15,9 @@
     <link rel="stylesheet" href="css/messageDetails.css"/>
 
     <!-- Additional Style -->
+    <link rel="stylesheet" href="css/alarm.css"/>
 
-    <link rel="icon" href="img/favicon.png" %}">
+    <link rel="icon" href="img/favicon.png">
     <title>通缉令详情</title>
 </head>
 <body>
@@ -36,21 +37,18 @@
 <!--</div>-->
 <!--</nav>-->
 
-<div class="main-container">
+<div class="main-container" id="container">
 
     <div class="panel get-message">
         <div class="panel-body overfloat-ban" id="infoBox">
 
-            <img src="img/test.jpg" class="get-img" id="imgtoGet"/>
+            <!--<img src="img/test.jpg" class="get-img" id="imgtoGet"/>-->
             <div class="img-message">
-                <p><strong>姓名：</strong>王某某</p>
-                <p><strong>性别：</strong>男</p>
-                <p><strong>出生日期：</strong>1976-9-24</p>
-                <p><strong>户籍地址：</strong>山西省xx县xx镇</p>
-                <p><strong>身份证号：</strong>142233197609xxxxxx</p>
-                <p><strong>罪情描述：</strong>山西省忻州市公安机关在侦办一起职务侵占案过程中发现，王某某利用职务之便，通过采取私刻印章冒领现金支票、无往来缴款凭证凭空记现金账等手段，非法占有1054余万元资金后逃匿。社会各界和广大人民群众积极提供有关线索，发现有关情况，请及时拨打110报警电话或0350——7306288。对发现线索的举报人、缉捕有功的单位或个人，公安机关将给予奖励人民币10万元。</p>
-                <p><strong>通缉日期：</strong>2011-2-12</p>
-                <p><strong>通缉编号：</strong>公缉[20xx]x号</p>
+                <p><strong>姓名：</strong></p>
+                <p><strong>基本信息：</strong></p>
+                <p><strong>罪情描述：</strong></p>
+                <p><strong>通缉日期：</strong></p>
+                <p><strong>通缉编号：</strong></p>
             </div>
         </div>
     </div>
@@ -69,12 +67,13 @@
 <!--</footer>-->
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="js/jquery.min.js"></script>
+<script src="assets/libs/jquery/jquery-3.2.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
 <script src="js/holder.min.js"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="js/ie10-viewport-bug-workaround.js"></script>
+<script type="text/javascript" src="http://cdn.goeasy.io/goeasy.js"></script>
 <script>
     $(document).ready(function(){
         var test = window.location.href.split("?")[1];
@@ -101,6 +100,24 @@
             error: function(){
                 alert('数据获取错误！');
             },
+        });
+
+        var goEasy = new GoEasy({appkey: 'BC-681930150556484b927df348d97cff9e'});
+        goEasy.subscribe({
+            channel: 'alarm',
+            onMessage: function(message){
+                var result = JSON.parse(message.content);
+                //alert(message.content);
+                var html = "<div class=\"alert alert-warning alert-dismissible mes-alert\" role=\"alert\">";
+                html += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\" id=\"closeAlarm\"><span aria-hidden=\"true\">&times;</span></button>";
+                html += "<h3><span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>  Warning! New message!</h3>";
+                html += "<div class=\"alarm-content-box\">";
+                html += "<p class=\"alarm-content\"> " + result.content + "</p>";
+                var href = "#!system/alarmDetails.html?user_id=" + result.user_id + "&content=" + result.content
+                    + "&tel=" + result.tel + "&longitude=" + result.longitude + "&latitude=" + result.latitude + "&img_name=" + result.img_name;
+                html += "<a href=\"" + href + "\" class=\"alarm-click\">点击查看</a></div></div>";
+                $("#container").append(html);
+            }
         });
     })
 </script>

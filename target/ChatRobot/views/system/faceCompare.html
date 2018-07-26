@@ -15,8 +15,9 @@
     <link rel="stylesheet" href="css/faceCompare.css"/>
 
     <!-- Additional Style -->
+    <link rel="stylesheet" href="css/alarm.css"/>
 
-    <link rel="icon" href="img/favicon.png" %}">
+    <link rel="icon" href="img/favicon.png">
     <title>人脸比对</title>
 </head>
 <body>
@@ -36,7 +37,7 @@
     <!--</div>-->
 <!--</nav>-->
 
-<div class="main-container">
+<div class="main-container" id="container">
     <div class="img-deal">
         <form class="img-select" enctype="multipart/form-data" id="msgForm">
             <div class="form-group">
@@ -97,12 +98,13 @@
 <!--</footer>-->
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="js/jquery.min.js"></script>
+<script src="assets/libs/jquery/jquery-3.2.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
 <script src="js/holder.min.js"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="js/ie10-viewport-bug-workaround.js"></script>
+<script type="text/javascript" src="http://cdn.goeasy.io/goeasy.js"></script>
 <script>
     $(document).ready(function() {
         $("#imgUpload").change(function (e) {
@@ -141,7 +143,6 @@
                         url: 'http://localhost:8080/ChatRobotPlatform/wanted/getWantedOrderById',
                         type: 'GET',
                         dataType: 'json',
-                        async: false,
                         data: json,
                         complete: function(data) {
                             //alert(data.responseText);
@@ -162,6 +163,24 @@
                 },
             })
         })
+
+        var goEasy = new GoEasy({appkey: 'BC-681930150556484b927df348d97cff9e'});
+        goEasy.subscribe({
+            channel: 'alarm',
+            onMessage: function(message){
+                var result = JSON.parse(message.content);
+                //alert(message.content);
+                var html = "<div class=\"alert alert-warning alert-dismissible mes-alert\" role=\"alert\">";
+                html += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\" id=\"closeAlarm\"><span aria-hidden=\"true\">&times;</span></button>";
+                html += "<h3><span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>  Warning! New message!</h3>";
+                html += "<div class=\"alarm-content-box\">";
+                html += "<p class=\"alarm-content\"> " + result.content + "</p>";
+                var href = "#!system/alarmDetails.html?user_id=" + result.user_id + "&content=" + result.content
+                    + "&tel=" + result.tel + "&longitude=" + result.longitude + "&latitude=" + result.latitude + "&img_name=" + result.img_name;
+                html += "<a href=\"" + href + "\" class=\"alarm-click\">点击查看</a></div></div>";
+                $("#container").append(html);
+            }
+        });
     })
 </script>
 </body>

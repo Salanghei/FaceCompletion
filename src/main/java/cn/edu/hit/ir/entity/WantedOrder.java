@@ -20,6 +20,8 @@ public class WantedOrder implements Serializable {
 
     private String imgName;
 
+    private byte[] pic;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -68,5 +70,13 @@ public class WantedOrder implements Serializable {
 
     public void setImgName(String imgName) {
         this.imgName = imgName;
+    }
+
+    public void setPic(byte[] pic) {
+        this.pic = pic;
+    }
+
+    public byte[] getPic() {
+        return pic;
     }
 }

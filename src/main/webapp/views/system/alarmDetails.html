@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta charset="UTF-8">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/custom-fa-font-style.css"/>
+
+    <!-- Global Custom Style -->
+    <link rel="stylesheet" href="css/custom-style.css"/>
+    <link rel="stylesheet" href="css/recordDetails.css"/>
+
+    <!-- Additional Style -->
+    <link rel="stylesheet" href="css/alarm.css"/>
+
+    <link rel="icon" href="img/favicon.png">
+    <title>报警记录详情详情</title>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<!--<nav class="navbar navbar-expand-md navbar-dark" style="background-color: black" id="navbar">-->
+    <!--<a class="navbar-brand" href="{% url 'index' %}">Face Completion</a>-->
+    <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04"-->
+            <!--aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">-->
+        <!--<span class="navbar-toggler-icon"></span>-->
+    <!--</button>-->
+
+    <!--<div class="collapse navbar-collapse" id="navbarsExample04">-->
+        <!--<ul class="navbar-nav mr-auto">-->
+            <!--&lt;!&ndash; For Right Alignment &ndash;&gt;-->
+        <!--</ul>-->
+    <!--</div>-->
+<!--</nav>-->
+
+<div class="main-container" id="container">
+
+            <div class="panel get-message">
+                <div class="panel-body overfloat-ban">
+
+                    <div class="img-message" id="msgBox">
+
+                        <p><strong>报警人：</strong></p>
+                        <p><strong>报警时间：</strong></p>
+                        <p><strong>地址：</strong></p>
+                        <p><strong>描述：</strong></p>
+                    </div>
+                    <div class="img-box" id="imgBox">
+                        <!--<img src="img/test.jpg" class="record-img"/>-->
+                        <!--<img src="img/test.jpg" class="record-img"/>-->
+                        <!--<img src="img/test.jpeg" class="record-img"/>-->
+                        <!--<img src="img/1.jpg" class="record-img"/>-->
+                        <!--<img src="img/test.jpeg" class="record-img"/>-->
+                        <!--<img src="img/1.jpg" class="record-img"/>-->
+                        <!--<img src="img/test.jpeg" class="record-img"/>-->
+                    </div>
+                </div>
+            </div>
+
+           
+
+</div>
+
+
+<!-- Footer -->
+<!--<footer class="footer text-muted">-->
+    <!--<div class="container">-->
+        <!--<p class="float-right">Constructed in <a href="http://getbootstrap.com/">Bootstrap</a></p>-->
+        <!--<p>© 2018 Company, Inc.</p>-->
+    <!--</div>-->
+<!--</footer>-->
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="assets/libs/jquery/jquery-3.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+<script src="js/holder.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="js/ie10-viewport-bug-workaround.js"></script>
+<script type="text/javascript" src="http://cdn.goeasy.io/goeasy.js"></script>
+<script>
+    $(document).ready(function(){
+        var test = window.location.href.split("?")[1];
+        $.ajax({
+            url: 'http://localhost:8080/ChatRobotPlatform/alarm/getAlarmInfo?' + test,
+            type: 'GET',
+            dataType: 'json',
+            complete: function(data) {
+                //alert('数据获取成功！');
+                var result = JSON.parse(data.responseText);
+                var html = "";
+                html += "<p><strong>报警人：</strong>" + result.user_id + "</p>";
+                html += "<p><strong>电话号码：</strong>" + result.tel + "</p>";
+                html += "<p><strong>位置：</strong>经度: " + result.longitude + "  纬度: " + result.latitude + "</p>";
+                html += "<p><strong>描述：</strong>" + result.content + "</p>";
+                $("#msgBox").html(html);
+
+                console.log(result.img_name);
+                var imgHtml = "";
+                var num = parseInt(result.img_name.split("_")[1]);
+                for(var i = 0; i < num; i++) {
+                    imgHtml += "<img src=\"http://localhost:8080/ChatRobotPlatform/image/downloadFile?img_name=" + (result.img_name.split("_")[0] + i) + ".jpg\" class=\"record-img\"/>";
+                }
+                $("#imgBox").html(imgHtml);
+            },
+            error: function(){
+                alert('数据获取错误！');
+            },
+        });
+
+        var goEasy = new GoEasy({appkey: 'BC-681930150556484b927df348d97cff9e'});
+        goEasy.subscribe({
+            channel: 'alarm',
+            onMessage: function(message){
+                var result = JSON.parse(message.content);
+                //alert(message.content);
+                var html = "<div class=\"alert alert-warning alert-dismissible mes-alert\" role=\"alert\">";
+                html += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\" id=\"closeAlarm\"><span aria-hidden=\"true\">&times;</span></button>";
+                html += "<h3><span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>  Warning! New message!</h3>";
+                html += "<div class=\"alarm-content-box\">";
+                html += "<p class=\"alarm-content\"> " + result.content + "</p>";
+                var href = "#!system/alarmDetails.html?user_id=" + result.user_id + "&content=" + result.content
+                    + "&tel=" + result.tel + "&longitude=" + result.longitude + "&latitude=" + result.latitude + "&img_name=" + result.img_name;
+                html += "<a href=\"" + href + "\" class=\"alarm-click\">点击查看</a></div></div>";
+                $("#container").append(html);
+            }
+        });
+    })
+</script>
+</body>
+</html>
